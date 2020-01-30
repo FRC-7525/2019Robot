@@ -26,7 +26,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
  * functions corresponding to each mode, as described in the TimedRobot
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the manifest file in the resource
- * directory.
+ * directory
  */
 public class Robot extends TimedRobot {
   // 0 - Left Motor 1
