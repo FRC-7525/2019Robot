@@ -8,12 +8,18 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DigitalInput;
+
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,10 +33,20 @@ public class Robot extends TimedRobot {
   // 1 - Right Motor 1
   // 2 - Left Motor 2
   // 3 - Right Motor 2
-  private SpeedController left1 = new WPI_TalonSRX(0);
-  private SpeedController left2 = new WPI_TalonSRX(2);
-  private SpeedController right1 = new WPI_TalonSRX(1);
-  private SpeedController right2 = new WPI_TalonSRX(3);
+  private SpeedController right1 = new WPI_TalonSRX(0);
+  private SpeedController right2 = new WPI_VictorSPX(2);
+  private SpeedController left1 = new WPI_TalonSRX(1);
+  private SpeedController left2 = new WPI_VictorSPX(3);
+  private SpeedController armMotor = new WPI_TalonSRX(4);
+
+
+  private Solenoid drive_Solenoid = new Solenoid(0);
+
+  private DigitalInput wrist_limit = new DigitalInput(1);
+  private DigitalInput hatch_ultrasonic1 = new DigitalInput(2);
+  private DigitalInput hatch_ultrasonic2 = new DigitalInput(3);
+  private DigitalInput ball_sensor = new DigitalInput(4);
+
   
   private final SpeedControllerGroup m_leftControllerGroup = 
     new SpeedControllerGroup(left1, left2);
@@ -47,6 +63,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    ((WPI_TalonSRX)armMotor).configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
   }
 
   /**
@@ -84,8 +101,31 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     m_robotDrive.arcadeDrive(m_stick.getY() * -1, m_stick.getX() * -1);
+    if (m_stick.getRawButton(1)) {
+      drive_Solenoid.set(true);
+    }
+    else {
+      drive_Solenoid.set(false);
+    }
+    if (m_stick.getRawButton(5)) {
+      armMotor.set(0.75);
+    }
+    else if (m_stick.getRawButton(6) && wrist_limit.get()) {
+      armMotor.set(-0.75);
+    }
+    else {
+      armMotor.set(0);
+    }
   }
-
+  @Override
+  public void robotPeriodic() {
+    SmartDashboard.putBoolean("wrist_limit", wrist_limit.get());
+    SmartDashboard.putBoolean("hatch ultrasonic sensor 1", hatch_ultrasonic1.get());
+    SmartDashboard.putBoolean("hatch ultrasonic sensor 2", hatch_ultrasonic2.get());
+    SmartDashboard.putBoolean("ball sensor",ball_sensor.get());
+    int sensorPosition = ((WPI_TalonSRX)armMotor).getSelectedSensorPosition();
+    SmartDashboard.putNumber("armPosition", sensorPosition);
+  }
   /**
    * This function is called periodically during test mode.
    */
