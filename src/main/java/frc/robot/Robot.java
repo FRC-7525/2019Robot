@@ -38,6 +38,12 @@ public class Robot extends TimedRobot {
   private SpeedController left1 = new WPI_TalonSRX(1);
   private SpeedController left2 = new WPI_VictorSPX(3);
   private SpeedController armMotor = new WPI_TalonSRX(4);
+  private SpeedController topIntake = new WPI_VictorSPX(8);
+  private SpeedController bottomIntake = new WPI_VictorSPX(9);
+  private SpeedController liftOne = new WPI_TalonSRX(5);
+  private SpeedController liftTwo = new WPI_VictorSPX(6);
+  private SpeedController liftThree = new WPI_VictorSPX(7);
+
 
 
   private Solenoid drive_Solenoid = new Solenoid(0);
@@ -101,20 +107,51 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     m_robotDrive.arcadeDrive(m_stick.getY() * -1, m_stick.getX() * -1);
+    // Button A shifts gears
     if (m_stick.getRawButton(1)) {
       drive_Solenoid.set(true);
     }
     else {
       drive_Solenoid.set(false);
     }
+    //left bumper button extends the arm
     if (m_stick.getRawButton(5)) {
       armMotor.set(0.75);
     }
+    //right bumper button retracts the arm
     else if (m_stick.getRawButton(6) && wrist_limit.get()) {
       armMotor.set(-0.75);
     }
     else {
       armMotor.set(0);
+    }
+    //Pressing down left joystick will intake
+    if (m_stick.getRawButton(9)) {
+      topIntake.set(-0.75);
+      bottomIntake.set(-0.75);
+    }
+    //Pressing down right joystick will shoot
+    else if (m_stick.getRawButton(10)) {
+      topIntake.set(0.75);
+      bottomIntake.set(0.75);
+    }
+    else {
+      topIntake.set(0);
+      bottomIntake.set(0);
+    }
+    //Pressing the Y button will make lift go up
+    if (m_stick.getRawButton(4)) {
+      liftOne.set(0.50);
+      liftThree.set(0.50);
+    }
+    //Pressing the B button will make the lift go down
+    else if (m_stick.getRawButton(2)) {
+      liftOne.set(-0.50);
+      liftThree.set(-0.50);
+    }
+    else {
+      liftOne.set(0);
+      liftThree.set(0);
     }
   }
   @Override
