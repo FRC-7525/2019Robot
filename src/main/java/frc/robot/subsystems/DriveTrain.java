@@ -9,7 +9,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -17,13 +16,13 @@ import frc.robot.Constants.DriveConstants;
 
 public class DriveTrain extends SubsystemBase {
 
-  private final SpeedController left1 = new WPI_TalonSRX(DriveConstants.kLeftMotor1);
-  private final SpeedController left2 = new WPI_TalonSRX(DriveConstants.kLeftMotor2);
-  private final SpeedController right1 = new WPI_TalonSRX(DriveConstants.kRightMotor1);
-  private final SpeedController right2 = new WPI_TalonSRX(DriveConstants.kRightMotor2);
+  private final WPI_TalonSRX leftFront = new WPI_TalonSRX(DriveConstants.kLeftFrontMotor);
+  private final WPI_TalonSRX leftRear = new WPI_TalonSRX(DriveConstants.kLeftRearMotor);
+  private final WPI_TalonSRX rightFront = new WPI_TalonSRX(DriveConstants.kRightFrontMotor);
+  private final WPI_TalonSRX rightRear = new WPI_TalonSRX(DriveConstants.kRightRearMotor);
 
-  private final SpeedControllerGroup m_leftControllerGroup = new SpeedControllerGroup(left1, left2);
-  private final SpeedControllerGroup m_rightControllerGroup = new SpeedControllerGroup(right1, right2);
+  private final SpeedControllerGroup m_leftControllerGroup = new SpeedControllerGroup(leftFront, leftRear);
+  private final SpeedControllerGroup m_rightControllerGroup = new SpeedControllerGroup(rightFront, rightRear);
 
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftControllerGroup, m_rightControllerGroup);
 
