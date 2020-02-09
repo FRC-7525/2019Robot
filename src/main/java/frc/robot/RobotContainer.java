@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveWithController;
 import frc.robot.subsystems.DriveTrain;
-import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -63,4 +62,9 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
     //return m_autoCommand;
   //}
+
+  /* TODO: only here temporarily while transitioning to CommandBased */
+  public XboxController getController() {
+    return m_driverController;
+  }
 }
