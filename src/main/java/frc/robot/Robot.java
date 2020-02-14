@@ -56,6 +56,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    SmartDashboard.putBoolean("arcade", false);
   }
 
 /**
@@ -143,6 +144,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
       /* TODO: keep here temporarily while migrating to CommandBased */
     // Button A shifts gears
+    /*
     if (m_robotContainer.getController().getRawButton(1)) {
       drive_Solenoid.set(true);
     }
@@ -188,6 +190,7 @@ public class Robot extends TimedRobot {
       liftOne.set(0);
       liftThree.set(0);
     }
+    */
   }
 
   @Override
