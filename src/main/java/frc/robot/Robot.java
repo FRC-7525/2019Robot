@@ -31,15 +31,14 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
 
-  private SpeedController armMotor = new WPI_TalonSRX(4);
-  private SpeedController topIntake = new WPI_VictorSPX(8);
-  private SpeedController bottomIntake = new WPI_VictorSPX(9);
+
   private SpeedController liftOne = new WPI_TalonSRX(5);
   private SpeedController liftTwo = new WPI_VictorSPX(6);
   private SpeedController liftThree = new WPI_VictorSPX(7);
 
   private Solenoid drive_Solenoid = new Solenoid(0);
 
+  private final SpeedController armMotor = new WPI_TalonSRX(4);
   private DigitalInput wrist_limit = new DigitalInput(1);
   private DigitalInput hatch_ultrasonic1 = new DigitalInput(2);
   private DigitalInput hatch_ultrasonic2 = new DigitalInput(3);

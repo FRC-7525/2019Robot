@@ -7,7 +7,7 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+  import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -24,8 +24,8 @@ public class DriveTrain extends SubsystemBase {
   private final SpeedController right1 = new WPI_TalonSRX(DriveConstants.kRightMotor1);
   private final SpeedController right2 = new WPI_VictorSPX(DriveConstants.kRightMotor2);
 
-  private final SpeedControllerGroup m_leftControllerGroup = new SpeedControllerGroup(leftFront, leftRear);
-  private final SpeedControllerGroup m_rightControllerGroup = new SpeedControllerGroup(rightFront, rightRear);
+  private final SpeedControllerGroup m_leftControllerGroup = new SpeedControllerGroup(left1, left2);
+  private final SpeedControllerGroup m_rightControllerGroup = new SpeedControllerGroup(right1, right2);
 
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftControllerGroup, m_rightControllerGroup);
 

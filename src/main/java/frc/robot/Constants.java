@@ -22,7 +22,11 @@ public final class Constants {
         public static final int kLeftMotor2 = 3;
         public static final int kRightMotor2 = 2;
     }
-
+    public static final class ArmConstants {
+        public static final int armMotor = 4;
+        public static final int topIntake = 8;
+        public static final int bottomIntake = 9;
+    }
     public static final class OIConstants {
         public static final int kDriverControllerPort = 0;
         //private final Joystick m_stick = new Joystick(0); //TODO: move wherever Command Based has it.
