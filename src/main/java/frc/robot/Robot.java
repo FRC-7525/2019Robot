@@ -38,8 +38,6 @@ public class Robot extends TimedRobot {
   private SpeedController liftTwo = new WPI_VictorSPX(6);
   private SpeedController liftThree = new WPI_VictorSPX(7);
 
-  private Solenoid drive_Solenoid = new Solenoid(0);
-
   private DigitalInput wrist_limit = new DigitalInput(1);
   private DigitalInput hatch_ultrasonic1 = new DigitalInput(2);
   private DigitalInput hatch_ultrasonic2 = new DigitalInput(3);
@@ -100,7 +98,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {

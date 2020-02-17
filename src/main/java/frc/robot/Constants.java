@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -21,6 +23,31 @@ public final class Constants {
         public static final int kRightMotor1 = 0;
         public static final int kLeftMotor2 = 3;
         public static final int kRightMotor2 = 2;
+
+        public static final int kShifterSolenoid = 0;
+
+        public static final double WHEEL_DIAMETER = 0.1016; // 4in in meters
+        public static final double ENCODER_EDGES_PER_REV = 4096;
+        public static final int PIDIDX = 0;
+        public static final double encoderConstant = (1 / ENCODER_EDGES_PER_REV) * WHEEL_DIAMETER * Math.PI;
+
+        public static final double ksVolts = 0.951;
+        public static final double kvVoltSecondsPerMeter = 4.21;
+        public static final double kaVoltSecondsSquaredPerMeter = 0.837;
+
+        public static final double kPDriveVel = 20.4;
+
+        public static final double kTrackwidthMeters = 0.6748;
+        public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(kTrackwidthMeters);
+    }
+
+    public static final class AutoConstants {
+        public static final double kMaxSpeedMetersPerSecond = 3;
+        public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+
+        // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
+        public static final double kRamseteB = 2;
+        public static final double kRamseteZeta = 0.7;
     }
 
     public static final class OIConstants {
