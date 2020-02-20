@@ -144,7 +144,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
       /* TODO: keep here temporarily while migrating to CommandBased */
     // Button A shifts gears
-    /*
     if (m_robotContainer.getController().getRawButton(1)) {
       drive_Solenoid.set(true);
     }
@@ -178,19 +177,18 @@ public class Robot extends TimedRobot {
     }
     //Pressing the Y button will make lift go up
     if (m_robotContainer.getController().getRawButton(4)) {
-      liftOne.set(0.50);
-      liftThree.set(0.50);
+      liftOne.set(0.80);
+      liftThree.set(0.80);
     }
     //Pressing the B button will make the lift go down
     else if (m_robotContainer.getController().getRawButton(2)) {
-      liftOne.set(-0.50);
-      liftThree.set(-0.50);
+      liftOne.set(-0.60);
+      liftThree.set(-0.60);
     }
     else {
       liftOne.set(0);
       liftThree.set(0);
     }
-    */
   }
 
   @Override

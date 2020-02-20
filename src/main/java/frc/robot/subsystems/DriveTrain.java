@@ -19,10 +19,10 @@ import frc.robot.Constants.DriveConstants;
 
 public class DriveTrain extends SubsystemBase {
 
-  private final SpeedController left1 = new WPI_TalonSRX(DriveConstants.kLeftMotor1);
-  private final SpeedController left2 = new WPI_VictorSPX(DriveConstants.kLeftMotor2);
-  private final SpeedController right1 = new WPI_TalonSRX(DriveConstants.kRightMotor1);
-  private final SpeedController right2 = new WPI_VictorSPX(DriveConstants.kRightMotor2);
+  private final SpeedController leftFront = new WPI_TalonSRX(DriveConstants.kLeftMotor1);
+  private final SpeedController leftRear = new WPI_VictorSPX(DriveConstants.kLeftMotor2);
+  private final SpeedController rightFront = new WPI_TalonSRX(DriveConstants.kRightMotor1);
+  private final SpeedController rightRear = new WPI_VictorSPX(DriveConstants.kRightMotor2);
 
   private final SpeedControllerGroup m_leftControllerGroup = new SpeedControllerGroup(leftFront, leftRear);
   private final SpeedControllerGroup m_rightControllerGroup = new SpeedControllerGroup(rightFront, rightRear);
@@ -30,10 +30,10 @@ public class DriveTrain extends SubsystemBase {
   private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftControllerGroup, m_rightControllerGroup);
 
   public DriveTrain() {
-    left1.setInverted(true);
-    left2.setInverted(true);
-    right1.setInverted(true);
-    right2.setInverted(true);
+    leftFront.setInverted(true);
+    leftRear.setInverted(true);
+    rightFront.setInverted(true);
+    rightRear.setInverted(true);
   }
 
   @Override
