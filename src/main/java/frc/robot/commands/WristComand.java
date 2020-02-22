@@ -10,7 +10,7 @@ public class WristComand extends CommandBase {
     private final DoubleSupplier m_wrist;
 
 //Creates a new WristComand
-public WristComand(ArmSubsystem m_ArmSubsystem, DoubleSupplier m_wrist) {
+public WristComand(ArmSubsystem ArmSubsystem, DoubleSupplier wrist) {
     m_ArmSubsystem = ArmSubsystem;
     m_wrist = wrist;
     addRequirements(ArmSubsystem);
