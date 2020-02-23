@@ -9,9 +9,14 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveWithController;
+import frc.robot.commands.MoveWristWithTriggers;
+import frc.robot.commands.MoveWristWithButtons;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Wrist;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -22,9 +27,10 @@ import frc.robot.subsystems.DriveTrain;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveTrain m_drivetrain = new DriveTrain();
+  private final Wrist wrist = new Wrist();
   
   // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  XboxController gameController = new XboxController(OIConstants.kDriverControllerPort);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -40,8 +46,17 @@ public class RobotContainer {
         // hand, and turning controlled by the right.
         new DriveWithController(
             m_drivetrain,
-            () -> -m_driverController.getY(GenericHID.Hand.kLeft),
-            () -> m_driverController.getX(GenericHID.Hand.kRight)));
+            () -> -gameController.getY(GenericHID.Hand.kLeft),
+            () -> gameController.getX(GenericHID.Hand.kRight)
+        )
+    );
+    wrist.setDefaultCommand(
+      new MoveWristWithTriggers(
+        wrist,
+        () -> gameController.getTriggerAxis(GenericHID.Hand.kLeft),
+        () -> gameController.getTriggerAxis(GenericHID.Hand.kRight)
+      )
+    );
   }
 
   /**
@@ -51,6 +66,11 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+        // Grab the hatch when the 'A' button is pressed.
+        new JoystickButton(gameController, Button.kBumperLeft.value)
+          .whenHeld(new MoveWristWithButtons(wrist, 1));
+        new JoystickButton(gameController, Button.kBumperRight.value)
+          .whenHeld(new MoveWristWithButtons(wrist, -1));
   }
 
   /**
@@ -65,6 +85,6 @@ public class RobotContainer {
 
   /* TODO: only here temporarily while transitioning to CommandBased */
   public XboxController getController() {
-    return m_driverController;
+    return gameController;
   }
 }

@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.Timer;
 
 /* TODO: need these temporarily to finsh the merge */
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -31,14 +30,14 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
 
-
+  private SpeedController topIntake = new WPI_VictorSPX(8);
+  private SpeedController bottomIntake = new WPI_VictorSPX(9);
   private SpeedController liftOne = new WPI_TalonSRX(5);
   private SpeedController liftTwo = new WPI_VictorSPX(6);
   private SpeedController liftThree = new WPI_VictorSPX(7);
 
   private Solenoid drive_Solenoid = new Solenoid(0);
 
-  private final SpeedController armMotor = new WPI_TalonSRX(4);
   private DigitalInput wrist_limit = new DigitalInput(1);
   private DigitalInput hatch_ultrasonic1 = new DigitalInput(2);
   private DigitalInput hatch_ultrasonic2 = new DigitalInput(3);
@@ -78,8 +77,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("hatch ultrasonic sensor 1", hatch_ultrasonic1.get());
     SmartDashboard.putBoolean("hatch ultrasonic sensor 2", hatch_ultrasonic2.get());
     SmartDashboard.putBoolean("ball sensor",ball_sensor.get());
-    int sensorPosition = ((WPI_TalonSRX)armMotor).getSelectedSensorPosition();
-    SmartDashboard.putNumber("armPosition", sensorPosition);
   }
 
   /**
@@ -87,11 +84,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+        // Cancels all running commands
+        CommandScheduler.getInstance().cancelAll();
   }
 
   @Override
   public void disabledPeriodic() {
-    ((WPI_TalonSRX)armMotor).configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
+    
   }
 
   /**
@@ -143,24 +142,13 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
       /* TODO: keep here temporarily while migrating to CommandBased */
     // Button A shifts gears
-    /*
     if (m_robotContainer.getController().getRawButton(1)) {
       drive_Solenoid.set(true);
     }
     else {
       drive_Solenoid.set(false);
     }
-    //left bumper button extends the arm
-    if (m_robotContainer.getController().getRawButton(5)) {
-      armMotor.set(0.75);
-    }
-    //right bumper button retracts the arm
-    else if (m_robotContainer.getController().getRawButton(6) && wrist_limit.get()) {
-      armMotor.set(-0.75);
-    }
-    else {
-      armMotor.set(0);
-    }
+
     //Pressing down left joystick will intake
     if (m_robotContainer.getController().getRawButton(9)) {
       topIntake.set(-0.75);
@@ -177,19 +165,18 @@ public class Robot extends TimedRobot {
     }
     //Pressing the Y button will make lift go up
     if (m_robotContainer.getController().getRawButton(4)) {
-      liftOne.set(0.50);
-      liftThree.set(0.50);
+      liftOne.set(0.80);
+      liftThree.set(0.80);
     }
     //Pressing the B button will make the lift go down
     else if (m_robotContainer.getController().getRawButton(2)) {
-      liftOne.set(-0.50);
-      liftThree.set(-0.50);
+      liftOne.set(-0.60);
+      liftThree.set(-0.60);
     }
     else {
       liftOne.set(0);
       liftThree.set(0);
     }
-    */
   }
 
   @Override

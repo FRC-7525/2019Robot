@@ -26,9 +26,18 @@ public final class Constants {
         public static final int armMotor = 4;
         public static final int topIntake = 8;
         public static final int bottomIntake = 9;
+
+        //3937,3944 - armPostion in top position
+        //4018 - straight up
+        //4306 - 75deg
+        //4619 - 40 deg
+        //5098-9,5109 - armPosition in bottom position
+        public static final int kArmP = 1;
+        public static final int kArmI = 2;
+        public static final int kArmD = 0;
     }
+
     public static final class OIConstants {
         public static final int kDriverControllerPort = 0;
-        //private final Joystick m_stick = new Joystick(0); //TODO: move wherever Command Based has it.
-      }
+    }
 }
