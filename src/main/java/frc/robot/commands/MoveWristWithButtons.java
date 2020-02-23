@@ -3,6 +3,7 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 import frc.robot.subsystems.Wrist;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import com.ctre.phoenix.ErrorCode;
 
 /**
  * Drive command
@@ -42,7 +43,7 @@ public class MoveWristWithButtons extends CommandBase {
       } else if (position >= 4020 && position < 4306) {
         speed = 0.0;
       } else if (position >= 4306 && position < 4760) {
-        speed = -0.18;
+        speed = -0.1;
       } else if (position >= 4760 && position < 5100) {
         speed = -0.22;
       } else if (position >= 5100) {

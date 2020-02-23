@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.ctre.phoenix.ErrorCode;
 
 import frc.robot.Constants.ArmConstants;
 
@@ -60,6 +61,7 @@ public class Wrist extends PIDSubsystem {
   }
 
   public int getPosition() {
+    armMotor.setSelectedSensorPosition(4018);
     return armMotor.getSelectedSensorPosition();
   }
 
