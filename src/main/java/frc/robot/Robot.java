@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.Timer;
 
 /* TODO: need these temporarily to finsh the merge */
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -31,7 +30,6 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
 
-  private SpeedController armMotor = new WPI_TalonSRX(4);
   private SpeedController topIntake = new WPI_VictorSPX(8);
   private SpeedController bottomIntake = new WPI_VictorSPX(9);
   private SpeedController liftOne = new WPI_TalonSRX(5);
@@ -79,8 +77,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("hatch ultrasonic sensor 1", hatch_ultrasonic1.get());
     SmartDashboard.putBoolean("hatch ultrasonic sensor 2", hatch_ultrasonic2.get());
     SmartDashboard.putBoolean("ball sensor",ball_sensor.get());
-    int sensorPosition = ((WPI_TalonSRX)armMotor).getSelectedSensorPosition();
-    SmartDashboard.putNumber("armPosition", sensorPosition);
   }
 
   /**
@@ -92,7 +88,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    ((WPI_TalonSRX)armMotor).configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 10);
+    
   }
 
   /**
@@ -150,17 +146,7 @@ public class Robot extends TimedRobot {
     else {
       drive_Solenoid.set(false);
     }
-    //left bumper button extends the arm
-    if (m_robotContainer.getController().getRawButton(5)) {
-      armMotor.set(0.75);
-    }
-    //right bumper button retracts the arm
-    else if (m_robotContainer.getController().getRawButton(6) && wrist_limit.get()) {
-      armMotor.set(-0.75);
-    }
-    else {
-      armMotor.set(0);
-    }
+
     //Pressing down left joystick will intake
     if (m_robotContainer.getController().getRawButton(9)) {
       topIntake.set(-0.75);
