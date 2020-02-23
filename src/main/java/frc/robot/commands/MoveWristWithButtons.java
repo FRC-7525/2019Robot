@@ -1,9 +1,7 @@
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
 import frc.robot.subsystems.Wrist;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import com.ctre.phoenix.ErrorCode;
 
 /**
  * Drive command
@@ -45,30 +43,37 @@ public class MoveWristWithButtons extends CommandBase {
       } else if (position >= 4306 && position < 4760) {
         speed = -0.1;
       } else if (position >= 4760 && position < 5100) {
-        speed = -0.22;
+        speed = -0.18;
       } else if (position >= 5100) {
         speed = 0.0;
       }
     //going up - motor speed is negative
     } else if (direction < 0) {
-      if (position < 4020) {
+      if (position < 4100) {
         speed = 0.0;
-      } else if (position >= 4020 && position < 4306) {
+      } else if (position >= 4100 && position < 4350) {
         speed = -0.2;
-      } else if (position >= 4306) {
+      } else if (position >= 4350) {
         speed = -0.45;
       } 
     } else {
       speed = 0.0;
     }
 
-//    System.out.println("position = " + position + ", speed = " + speed);
+    //System.out.println("position = " + position + ", speed = " + speed);
     wrist.move(speed);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    //The switch is false when the wrist is all the way up
+    // and true when the wrist is not.  We want to return 
+    //true (i.e. stop the command) when the switch is false.
+    if (direction < 0) {
+      return !(wrist.getLimit());
+    } else {
+      return false;
+    }
   }
 }

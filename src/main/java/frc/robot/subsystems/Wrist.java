@@ -12,13 +12,14 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.ctre.phoenix.ErrorCode;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 import frc.robot.Constants.ArmConstants;
 
 public class Wrist extends PIDSubsystem {
 
   private final WPI_TalonSRX armMotor = new WPI_TalonSRX(4);
+  private final DigitalInput wrist_limit = new DigitalInput(1);
 
   public Wrist() {
     super(new PIDController(ArmConstants.kArmP, ArmConstants.kArmI, ArmConstants.kArmD));
@@ -46,6 +47,7 @@ public class Wrist extends PIDSubsystem {
   public void periodic() {
     int sensorPosition = armMotor.getSelectedSensorPosition();
     SmartDashboard.putNumber("armPosition", sensorPosition);
+    SmartDashboard.putBoolean("wrist_limit", wrist_limit.get());
   }
 
   public boolean atSetpoint() {
@@ -62,6 +64,10 @@ public class Wrist extends PIDSubsystem {
 
   public int getPosition() {
     return armMotor.getSelectedSensorPosition();
+  }
+
+  public boolean getLimit() {
+    return wrist_limit.get();
   }
 
   // //The old one used to:
