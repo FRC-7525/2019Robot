@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class MoveWristWithTriggers extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Wrist wrist;
-  private final DoubleSupplier upSpeed;
   private final DoubleSupplier downSpeed;
+  private final DoubleSupplier upSpeed;
 
   /**
    * Creates a new DriveWithController
@@ -20,19 +20,19 @@ public class MoveWristWithTriggers extends CommandBase {
    * @param upSpeed The suplier of the speed with which to raise the wrist
    * @param downSpeed The supplier of the speed with which to lower the wrist
    */
-  public MoveWristWithTriggers(Wrist wrist, DoubleSupplier upSpeed, DoubleSupplier downSpeed) {
+  public MoveWristWithTriggers(Wrist wrist, DoubleSupplier downSpeed, DoubleSupplier upSpeed) {
     this.wrist = wrist;
-    this.upSpeed = upSpeed;
     this.downSpeed = downSpeed;
+    this.upSpeed = upSpeed;
     addRequirements(wrist);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double upSpeed = this.upSpeed.getAsDouble();
     double downSpeed = this.downSpeed.getAsDouble();
-    wrist.move(upSpeed - downSpeed);
+    double upSpeed = this.upSpeed.getAsDouble();
+    wrist.move(downSpeed - upSpeed);
   }
 
   // Returns true when the command should end.

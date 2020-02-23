@@ -59,6 +59,10 @@ public class Wrist extends PIDSubsystem {
     armMotor.stopMotor();
   }
 
+  public int getPosition() {
+    return armMotor.getSelectedSensorPosition();
+  }
+
   // //The old one used to:
   //     //left bumper button extends the arm
   //     if (m_robotContainer.getController().getRawButton(5)) {
