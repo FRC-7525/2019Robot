@@ -90,7 +90,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-
+    m_drivetrain.resetOdometry(new Pose2d());
     // Create a voltage constraint to ensure we don't accelerate too fast
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
@@ -111,32 +111,28 @@ public class RobotContainer {
 
     // An example trajectory to follow.  All units in meters.
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-        // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
-        // Pass through these waypoints
         List.of(
-            new Translation2d(1, 0),
-            new Translation2d(2, 0)
+            new Translation2d(1.0, 0.0)
         ),
-        // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 0, new Rotation2d(0)),
+        new Pose2d(2.0, 0, new Rotation2d(45)),
         // Pass config
         config
     );
 
     RamseteCommand ramseteCommand = new RamseteCommand(
         exampleTrajectory,
-        () -> m_drivetrain.getPose(),
+        m_drivetrain::getPose,
         new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
         new SimpleMotorFeedforward(DriveConstants.ksVolts,
                                    DriveConstants.kvVoltSecondsPerMeter,
                                    DriveConstants.kaVoltSecondsSquaredPerMeter),
         DriveConstants.kDriveKinematics,
-        () -> m_drivetrain.getWheelSpeeds(),
+        m_drivetrain::getWheelSpeeds,
         new PIDController(DriveConstants.kPDriveVel, 0, 0),
         new PIDController(DriveConstants.kPDriveVel, 0, 0),
         // RamseteCommand passes volts to the callback
-        (left, right) -> m_drivetrain.tankDriveVolts(left, right),
+        m_drivetrain::tankDriveVolts,
         m_drivetrain
     );
 

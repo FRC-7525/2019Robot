@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
@@ -45,10 +46,11 @@ public class DriveTrain extends SubsystemBase {
   Solenoid shifter = new Solenoid(DriveConstants.kShifterSolenoid);
 
   // Odometry class for tracking robot pose
-  private final DifferentialDriveOdometry odometry;
+  private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 
   public DriveTrain() {
     left1.setInverted(true);
+    left1.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, DriveConstants.PIDIDX, 10);
     left1.setSensorPhase(false);
     left1.setNeutralMode(NeutralMode.Brake);
 
@@ -57,6 +59,7 @@ public class DriveTrain extends SubsystemBase {
     left2.setNeutralMode(NeutralMode.Brake);
 
     right1.setInverted(true);
+    right1.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, DriveConstants.PIDIDX, 10);
     right1.setSensorPhase(true);
     right1.setNeutralMode(NeutralMode.Brake);
 
@@ -64,18 +67,8 @@ public class DriveTrain extends SubsystemBase {
     right2.follow(right1);
     right2.setNeutralMode(NeutralMode.Brake);
 
-    left1.configSelectedFeedbackSensor(
-        FeedbackDevice.QuadEncoder,
-        DriveConstants.PIDIDX, 10
-    );
-
-    right1.configSelectedFeedbackSensor(
-        FeedbackDevice.QuadEncoder,
-        DriveConstants.PIDIDX, 10
-    );
-
-    resetEncoders();
-    odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
+    zeroHeading();
+    resetOdometry(new Pose2d());
   }
 
   public double getLeftPosition(){
@@ -104,6 +97,8 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("Right Position", getRightPosition());
     SmartDashboard.putNumber("Right Velocity", getRightVelocity());
     SmartDashboard.putNumber("Heading", getHeading());
+    SmartDashboard.putString("Pose", getPose().toString());
+    SmartDashboard.putString("Wheel Speeds", getWheelSpeeds().toString());
   }
 
   public Pose2d getPose() {
@@ -120,20 +115,20 @@ public class DriveTrain extends SubsystemBase {
   }
   
   public void arcadeDrive(double forwardSpeed, double rotationSpeed) {
-    robotDrive.arcadeDrive(forwardSpeed, rotationSpeed);
+    robotDrive.arcadeDrive(forwardSpeed, rotationSpeed, true);
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     SmartDashboard.putNumber("Left Volts", leftVolts);
     SmartDashboard.putNumber("Right Volts", rightVolts);
-    // left1.setVoltage(leftVolts);
-    // right2.setVoltage(-rightVolts);
+    left1.setVoltage(leftVolts);
+    right1.setVoltage(-rightVolts);
     robotDrive.feed();
   }
 
   public void resetEncoders() {
-    left1.setSelectedSensorPosition(0);
-    right1.setSelectedSensorPosition(0);
+    left1.setSelectedSensorPosition(0, DriveConstants.PIDIDX, 10);
+    right1.setSelectedSensorPosition(0, DriveConstants.PIDIDX, 10);
   }
 
   public double getAverageEncoderDistance() {
@@ -149,11 +144,11 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public double getHeading() {
-    return Math.IEEEremainder(navx.getAngle(), 360);
+    return Math.IEEEremainder(navx.getAngle(), 360) * -1;
   }
 
   public double getTurnRate() {
-    return navx.getRate();
+    return navx.getRate() * -1;
   }
 
 }
