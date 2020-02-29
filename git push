@@ -1,0 +1,142 @@
+[33mcommit 0809175de454857a36cfb3e44e68427a40b1b630[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Team7525 <pioneers.robotics@gmail.com>
+Date:   Fri Feb 28 17:16:18 2020 -0600
+
+    lemonlight vision subclass
+
+[33mcommit 3eedbc9b4262509899775bc2086a595810b56199[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Team7525 <pioneers.robotics@gmail.com>
+Date:   Sun Feb 23 17:30:59 2020 -0600
+
+    Added limit switch reading to wrist
+
+[33mcommit c7db1cea262729de019dc62d0211b22e8b7a4fa6[m
+Merge: e7778d3 393acdd
+Author: Bogdan V. Bradu <bradubv@hotmail.com>
+Date:   Sun Feb 23 15:46:36 2020 -0600
+
+    merged captiol into master
+
+[33mcommit 393acdd7632e74eea1ebc337a6837e78bbc2e8e4[m[33m ([m[1;31morigin/capitol[m[33m, [m[1;32mcapitol[m[33m)[m
+Author: Team7525 <pioneers.robotics@gmail.com>
+Date:   Sun Feb 23 14:49:35 2020 -0600
+
+    Made the position encoder reset to 4018 every time
+
+[33mcommit 627365c51c2ca1710f3984e4a051de9c1f5f74ea[m
+Author: Bogdan V. Bradu <bradubv@hotmail.com>
+Date:   Sat Feb 22 23:07:37 2020 -0500
+
+    Bumper commands for wrist are gentle
+
+[33mcommit 30ddc3fd7895e7d2be392ab6d84a87a673dc0b88[m
+Author: Bogdan V. Bradu <bradubv@hotmail.com>
+Date:   Sat Feb 22 19:38:33 2020 -0500
+
+    wrist moves with triggers
+
+[33mcommit e7778d312f91adaa460720bbd71fb3c85954235a[m
+Author: Team7525 <pioneers.robotics@gmail.com>
+Date:   Sat Feb 22 12:13:07 2020 -0600
+
+    Fixed code mistake
+
+[33mcommit fa2b6479ab98900454948d07843b9add2a92a760[m
+Author: Bogdan V. Bradu <bradubv@hotmail.com>
+Date:   Wed Feb 19 19:13:56 2020 -0500
+
+    DriveTrain is CommandBased, rest is not
+
+[33mcommit 13a8f5e1e19d9e4b93120e1de4814ce6f2fac78a[m
+Author: Team7525 <pioneers.robotics@gmail.com>
+Date:   Sat Feb 15 14:11:38 2020 -0600
+
+    Created arm subsystem and wrist command
+
+[33mcommit be4d7192bc7e5ba615275fb5e2c2eeaee0377a2a[m
+Merge: 6a5cf6f 5493dad
+Author: Team7525 <pioneers.robotics@gmail.com>
+Date:   Fri Feb 14 17:31:43 2020 -0600
+
+    Changed controller from talonSRX to VictorSpx
+
+[33mcommit 6a5cf6fe1a45cad3039997745e38eaa9b21c6f4e[m
+Author: Team7525 <pioneers.robotics@gmail.com>
+Date:   Fri Feb 14 16:57:45 2020 -0600
+
+    Command style drivetrain
+
+[33mcommit 5493dad3e117c0a6a12837f52414b3d9da895249[m
+Author: Bogdan <bradubv@hotmail.com>
+Date:   Sat Feb 8 18:28:10 2020 -0600
+
+    Replaced SpeedController with specific WPI_TalonSRX types
+
+[33mcommit 39d04b5f54d91f05cf024635839e759fbb62687e[m
+Merge: c733ece 6630d79
+Author: Bogdan <bradubv@hotmail.com>
+Date:   Sat Feb 8 18:00:35 2020 -0600
+
+    Hybrid: CommandBased drive, all other functions iterative
+
+[33mcommit c733ece4e30c04042647ee07fef6f0363adbb765[m
+Author: Bogdan <bradubv@hotmail.com>
+Date:   Sat Feb 8 13:12:49 2020 -0600
+
+    Upgraded FRC library
+
+[33mcommit 6630d798cfc62efd6df436e1b115611d787398af[m
+Author: Bogdan V. Bradu <bradubv@hotmail.com>
+Date:   Sat Feb 8 12:11:50 2020 -0500
+
+    Added README.md file
+
+[33mcommit 3a27d842b5b6526af645e0c43fa61e6c913da74b[m
+Author: Bogdan <bradubv@hotmail.com>
+Date:   Fri Feb 7 00:45:26 2020 -0600
+
+    Changed to CommandBased
+
+[33mcommit 1472073c138acfd727b2cdb302cd00697c75454f[m
+Author: Bogdan V. Bradu <bradubv@hotmail.com>
+Date:   Sat Feb 1 14:10:44 2020 -0500
+
+    Adding more motor control to the 2019 robot
+
+[33mcommit 27693088316831debffaffb1e176d82348b5ee1f[m
+Merge: 907f1d8 b75936e
+Author: Bogdan V. Bradu <bradubv@hotmail.com>
+Date:   Wed Jan 29 20:25:31 2020 -0500
+
+    Merge branch 'master' of https://github.com/FRC-7525/2019Robot
+
+[33mcommit 907f1d8fd00bca670be8c8996e3fe8c045cfc597[m
+Author: Bogdan V. Bradu <bradubv@hotmail.com>
+Date:   Wed Jan 29 20:22:57 2020 -0500
+
+    Added comments to buttons
+
+[33mcommit b75936e22ea94693a4da43b0585450339e75d822[m[33m ([m[1;31morigin/iterative[m[33m)[m
+Author: Bogdan <bradubv@hotmail.com>
+Date:   Wed Jan 29 18:10:14 2020 -0600
+
+    delete a dot
+
+[33mcommit f13be40adb51e2ba373c91b8d34867eebad4e9a4[m
+Merge: 83b90ec f06fe80
+Author: Bogdan <bradubv@hotmail.com>
+Date:   Sat Jan 25 11:46:31 2020 -0600
+
+    Merge local code into the remote
+
+[33mcommit 83b90ec206bdeb9995ecf1c7aaee77dbf2c30412[m
+Author: Bogdan <bradubv@hotmail.com>
+Date:   Sat Jan 25 11:42:03 2020 -0600
+
+    Just drive
+
+[33mcommit f06fe807ae91a3e523f1736f1fae7f3ffc7e29db[m
+Author: bradubv <bradubv@hotmail.com>
+Date:   Sat Jan 25 11:32:07 2020 -0600
+
+    Initial commit

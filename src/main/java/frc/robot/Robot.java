@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.LemonLight;
 import edu.wpi.first.wpilibj.Timer;
 
 /* TODO: need these temporarily to finsh the merge */
@@ -43,6 +44,9 @@ public class Robot extends TimedRobot {
   private DigitalInput ball_sensor = new DigitalInput(4);
 
   private final Timer m_timer = new Timer();
+
+  private LemonLight lemonlight = new LemonLight();
+  private boolean isDriveModeEnabled = false;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -171,10 +175,56 @@ public class Robot extends TimedRobot {
       liftOne.set(-0.60);
       liftThree.set(-0.60);
     }
+    //Testing Limelight NetworkTable things
+    else if (m_robotContainer.getController().getRawButton(7)) {
+      SmartDashboard.putNumber("horizontal",lemonlight.getHorizontalOffset());
+      SmartDashboard.putNumber("vertical",lemonlight.getVerticalOffset());
+      SmartDashboard.putNumber("currentPipe",lemonlight.getPipleline());
+      // int currentLEDmode = lemonlight.getLEDmode();
+      // int currentStreamMode = lemonlight.getStreamMode();
+      // int currentCameraMode = lemonlight.getCameraMode();
+      
+      if (isDriveModeEnabled) {
+        lemonlight.setLED_Mode(LemonLight.LED_MODE_OFF);
+        lemonlight.setCameraMode(LemonLight.CAMERA_MODE_DRIVER);
+        lemonlight.setStreamMode(LemonLight.STREAM_MODE_PIPMAIN);
+        lemonlight.setPipeline(LemonLight.PIPELINE_DEFAULT);
+      }
+      else {
+        lemonlight.setLED_Mode(LemonLight.LED_MODE_ON);
+        lemonlight.setCameraMode(LemonLight.CAMERA_MODE_VISION);
+        lemonlight.setStreamMode(LemonLight.STREAM_MODE_PIPMAIN);
+        lemonlight.setPipeline(LemonLight.PIPELINE_TARGET_TRACKING);
+      }
+      isDriveModeEnabled = !isDriveModeEnabled;
+      
+      // if (currentLEDmode == LemonLight.LED_MODE_ON) {
+      //   lemonlight.setLED_Mode(LemonLight.LED_MODE_PIPELINE);
+      // }
+      // else {
+      //   lemonlight.setLED_Mode(currentLEDmode + 1);
+      // }
+      // if (currentStreamMode == LemonLight.STREAM_MODE_PIPSECONDARY) {
+      //   lemonlight.setStreamMode(LemonLight.STREAM_MODE_STANDARD);
+      // }
+      // else {
+      //   lemonlight.setStreamMode(currentStreamMode + 1);
+      // }
+      // if (currentCameraMode == LemonLight.CAMERA_MODE_DRIVER) {
+      //   lemonlight.setCameraMode(LemonLight.LED_MODE_PIPELINE);
+      // }
+      // else {
+      //   lemonlight.setCameraMode(currentCameraMode + 1);
+      // }
+
+
+
+    }
     else {
       liftOne.set(0);
       liftThree.set(0);
     }
+
   }
 
   @Override
