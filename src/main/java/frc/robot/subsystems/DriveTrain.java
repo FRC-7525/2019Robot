@@ -18,29 +18,34 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
 import frc.robot.Constants.DriveConstants;
 
 public class DriveTrain extends SubsystemBase {
 
   // The motors on the left side of the drive.
-  private final WPI_TalonSRX left1 = new WPI_TalonSRX(DriveConstants.kLeftMotor1);
-  private final WPI_VictorSPX left2 = new WPI_VictorSPX(DriveConstants.kLeftMotor2);
+  private WPI_TalonSRX left1;
+  private WPI_VictorSPX left2;
+  private SpeedController leftMotors;
 
   // The motors on the right side of the drive.
-  private final WPI_TalonSRX right1 = new WPI_TalonSRX(DriveConstants.kRightMotor1);
-  private final WPI_VictorSPX right2 = new WPI_VictorSPX(DriveConstants.kRightMotor2);
+  private WPI_TalonSRX right1;
+  private WPI_VictorSPX right2;
+  private SpeedController rightMotors;
 
   // The robot's drive
-  private final DifferentialDrive robotDrive = new DifferentialDrive(left1, right1);
+  private DifferentialDrive robotDrive;
 
   // The gyro sensor
-  private final AHRS navx = new AHRS(SPI.Port.kMXP);
+  private AHRS navx;
 
   // Shifter Solenoid
   Solenoid shifter = new Solenoid(DriveConstants.kShifterSolenoid);
@@ -49,42 +54,71 @@ public class DriveTrain extends SubsystemBase {
   private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
 
   public DriveTrain() {
-    left1.setInverted(true);
-    left1.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, DriveConstants.PIDIDX, 10);
-    left1.setSensorPhase(false);
-    left1.setNeutralMode(NeutralMode.Brake);
+    if(Robot.isReal()) {
+      navx = new AHRS(SPI.Port.kMXP);
 
-    left2.setInverted(true);
-    left2.follow(left1);
-    left2.setNeutralMode(NeutralMode.Brake);
+      left1 = new WPI_TalonSRX(DriveConstants.kLeftMotor1);
+      left2 = new WPI_VictorSPX(DriveConstants.kLeftMotor2);
 
-    right1.setInverted(true);
-    right1.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, DriveConstants.PIDIDX, 10);
-    right1.setSensorPhase(true);
-    right1.setNeutralMode(NeutralMode.Brake);
+      right1 = new WPI_TalonSRX(DriveConstants.kRightMotor1);
+      right2 = new WPI_VictorSPX(DriveConstants.kRightMotor2);
 
-    right2.setInverted(true);
-    right2.follow(right1);
-    right2.setNeutralMode(NeutralMode.Brake);
+      left1.setInverted(true);
+      left1.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, DriveConstants.PIDIDX, 10);
+      left1.setSensorPhase(false);
+      left1.setNeutralMode(NeutralMode.Brake);
+
+      left2.setInverted(true);
+      left2.follow(left1);
+      left2.setNeutralMode(NeutralMode.Brake);
+
+      right1.setInverted(true);
+      right1.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, DriveConstants.PIDIDX, 10);
+      right1.setSensorPhase(true);
+      right1.setNeutralMode(NeutralMode.Brake);
+
+      right2.setInverted(true);
+      right2.follow(right1);
+      right2.setNeutralMode(NeutralMode.Brake);
+
+      leftMotors = left1;
+      rightMotors = right1;
+    }else{
+      leftMotors = new VictorSP(0);
+      rightMotors = new VictorSP(1);
+    }
+    robotDrive = new DifferentialDrive(leftMotors, rightMotors);
 
     zeroHeading();
     resetOdometry(new Pose2d());
   }
 
   public double getLeftPosition(){
-    return left1.getSelectedSensorPosition(DriveConstants.PIDIDX) * DriveConstants.encoderConstant;
+    if(Robot.isReal())
+      return left1.getSelectedSensorPosition(DriveConstants.PIDIDX) * DriveConstants.encoderConstant;
+    else
+      return 0;
   }
 
   public double getLeftVelocity(){
-    return left1.getSelectedSensorVelocity(DriveConstants.PIDIDX) * DriveConstants.encoderConstant * 10;
+    if(Robot.isReal())
+      return left1.getSelectedSensorVelocity(DriveConstants.PIDIDX) * DriveConstants.encoderConstant * 10;
+    else
+      return 0;
   }
 
   public double getRightPosition(){
-    return right1.getSelectedSensorPosition(DriveConstants.PIDIDX) * DriveConstants.encoderConstant;
+    if(Robot.isReal())
+      return right1.getSelectedSensorPosition(DriveConstants.PIDIDX) * DriveConstants.encoderConstant;
+    else
+      return 0;
   }
 
   public double getRightVelocity(){
-    return right1.getSelectedSensorVelocity(DriveConstants.PIDIDX) * DriveConstants.encoderConstant * 10;
+    if(Robot.isReal())
+      return right1.getSelectedSensorVelocity(DriveConstants.PIDIDX) * DriveConstants.encoderConstant * 10;
+    else
+      return 0;
   }
 
   @Override
@@ -121,14 +155,16 @@ public class DriveTrain extends SubsystemBase {
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     SmartDashboard.putNumber("Left Volts", leftVolts);
     SmartDashboard.putNumber("Right Volts", rightVolts);
-    left1.setVoltage(leftVolts);
-    right1.setVoltage(-rightVolts);
+    leftMotors.setVoltage(leftVolts);
+    rightMotors.setVoltage(-rightVolts);
     robotDrive.feed();
   }
 
   public void resetEncoders() {
-    left1.setSelectedSensorPosition(0, DriveConstants.PIDIDX, 10);
-    right1.setSelectedSensorPosition(0, DriveConstants.PIDIDX, 10);
+    if(Robot.isReal()) {
+      left1.setSelectedSensorPosition(0, DriveConstants.PIDIDX, 10);
+      right1.setSelectedSensorPosition(0, DriveConstants.PIDIDX, 10);
+    }
   }
 
   public double getAverageEncoderDistance() {
@@ -140,15 +176,22 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void zeroHeading() {
-    navx.reset();
+    if(Robot.isReal())
+      navx.reset();
   }
 
   public double getHeading() {
-    return Math.IEEEremainder(navx.getAngle(), 360) * -1;
+    if(Robot.isReal())
+      return Math.IEEEremainder(navx.getAngle(), 360) * -1;
+    else
+      return 0;
   }
 
   public double getTurnRate() {
-    return navx.getRate() * -1;
+    if(Robot.isReal())
+      return navx.getRate() * -1;
+    else
+      return 0;
   }
 
 }
